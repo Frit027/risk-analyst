@@ -24,9 +24,9 @@ $( "#my_button" ).click(function() {
                     data.denied_percent
                 ],
                 backgroundColor: [
-                    "#FF6384",
-                    "#63FF84",
-                    "#6384FF"
+                    "#32CD32",
+                    "#FFA420",
+                    "#F80000"
                 ]
             }]
     };

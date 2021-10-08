@@ -2,22 +2,32 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>РискАналитик</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
-        <select name="category" size="4" multiple style = "font-size: 20px">
-            <option value="1">Volvo</option>
-            <option value="2">Saab</option>
-            <option value="3">Fiat</option>
-            <option value="4">Audi</option>
-        </select><br>
+        <div id="select-block">
+            <select id="select-category" class="form-select" size="6" aria-label="size 3 select example">
+                <option value="1">Аренда транспортных средств (ТС)</option>
+                <option value="2">Поставка</option>
+                <option value="3">Теплоснабжение для государственных нужд</option>
+                <option value="4">Подряд</option>
+                <option value="5">Управление многоквартирным домом</option>
+                <option value="6">Водоотведение и прием сточных вод</option>
+                <option value="7">Банкротство организации</option>
+                <option value="8">Дела в связи с привлечением к административной ответственности</option>
+            </select><br>
 
-        <button id="my_button" style = "font-size: 20px">Ок</button><br>
+            <button id="my_button" class="btn btn-secondary">Посмотреть статистику</button><br>
+        </div>
 
-        <canvas id="statusChart" width="500" height="500"></canvas>
+        <canvas id="statusChart"></canvas>
         <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
     </body>
 </html>

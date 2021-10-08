@@ -1,4 +1,23 @@
+#select-block {
+    width: 400px;
+    margin: 30px 0 0 30px;
+}
+
+#select-category {
+    width: 400px;
+    overflow-x:auto;
+    overflow-y:auto;
+}
+
+#my_button {
+    margin: 0 auto;
+    display: block;
+    width: 200px;
+}
 
 canvas {
-
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 450px;
 }
