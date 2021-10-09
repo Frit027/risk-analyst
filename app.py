@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from constants import StatusType
 import random
 import sys
 
@@ -13,20 +12,29 @@ app.secret_key = 'a78b1fe0e6491de8e9cf2a49a6e20c8f'
 db = SQLAlchemy(app)
 
 
+category_deal = db.Table(
+    'category_deal',
+    db.Column('category_id', db.Integer, db.ForeignKey('category.id')),
+    db.Column('deal_id', db.String(255), db.ForeignKey('deal.id'))
+)
+
+
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False, unique=True)
-    deals = db.relationship('Deal', backref='category_deals', lazy='dynamic')
+    name = db.Column(db.String(255), nullable=False)
+
+    deals = db.relationship('Deal',
+                            secondary=category_deal,
+                            back_populates='categories') # backref=db.backref('categories_deals', lazy='dynamic'))
 
 
 class Deal(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    id = db.Column(db.String(255), primary_key=True)
+    status_id = db.Column(db.Integer, db.ForeignKey('status.id'))
 
-    # статус для каждого дела (1:1)
-    status = db.relationship('Status', backref='deal', uselist=False)
-
-    # документы каждого дела
+    categories = db.relationship(Category,
+                                 secondary=category_deal,
+                                 back_populates='deals') # backref=db.backref('deals_categories', lazy='dynamic'))
     documents = db.relationship('Document', backref='deal_documents', lazy='dynamic')
 
 
@@ -34,52 +42,75 @@ class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    # связь с таблицей Deal
-    deal_id = db.Column(db.Integer, db.ForeignKey('deal.id'))
+    deals = db.relationship(Deal, backref='status_deals', lazy='dynamic')
+    documents = db.relationship('Document', backref='status_documents', lazy='dynamic')
 
-    # связь с таблицей Document
-    document_id = db.Column(db.Integer, db.ForeignKey('document.id'))
+
+document_requirement = db.Table(
+    'document_requirement',
+    db.Column('document_id', db.String(255), db.ForeignKey('document.id')),
+    db.Column('requirement_id', db.Integer, db.ForeignKey('requirement.id'))
+)
+
+
+document_condition = db.Table(
+    'document_condition',
+    db.Column('document_id', db.String(255), db.ForeignKey('document.id')),
+    db.Column('condition_id', db.Integer, db.ForeignKey('condition.id'))
+)
 
 
 class Document(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(255), nullable=False)
-    short_claim = db.Column(db.String(255), nullable=False)
-    detail_claim = db.Column(db.Text, nullable=False)
+    id = db.Column(db.String(255), primary_key=True)
+    req_detail = db.Column(db.Text, nullable=False)
+    con_detail = db.Column(db.Text, nullable=False)
+    instance = db.Column(db.Integer, nullable=False)
+    deal_id = db.Column(db.String(255), db.ForeignKey('deal.id'))
+    status_id = db.Column(db.Integer, db.ForeignKey('status.id'))
 
-    # статус для каждого дела (1:1)
-    status = db.relationship('Status', backref='document', uselist=False)
-    deal_id = db.Column(db.Integer, db.ForeignKey('deal.id'))
+    requirements = db.relationship('Requirement',
+                                   secondary=document_requirement,
+                                   back_populates='documents')
+                                   # backref=db.backref('documents_requirements', lazy='dynamic'))
+    conditions = db.relationship('Condition',
+                                 secondary=document_condition,
+                                 back_populates='documents')
+                                 # backref=db.backref('documents_conditions', lazy='dynamic'))
+
+
+class Requirement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+    documents = db.relationship(Document,
+                                secondary=document_requirement,
+                                back_populates='requirements')
+                                # backref=db.backref('requirements_documents', lazy='dynamic'))
+
+
+class Condition(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+    documents = db.relationship(Document,
+                                secondary=document_condition,
+                                back_populates='conditions')
+                                # backref=db.backref('conditions_documents', lazy='dynamic'))
 
 
 db.create_all()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    doc1 = Document(url='it is url1', short_claim='short_claim1',
-                    detail_claim='detail_claim1', status=Status(name=StatusType.PARTIALLY_SATISFIED.value))
-    deal1 = Deal(documents=[doc1], status=Status(name=StatusType.DENIED.value))
+    # from database_filler import DatabaseFiller
+    # DatabaseFiller.fill_status(db)
+    # DatabaseFiller.fill_category(db)
+    # DatabaseFiller.fill_requirements(db)
+    # DatabaseFiller.fill_conditions(db)
 
-    category_name = 'Продажа'
-    category_names = list(x[0] for x in Category.query.with_entities(Category.name).all())
-    categories = Category.query.all()
-    for v in categories:
-        print('NAME', v.name, end=': ')
-        for d in v.deals:
-            print(d.status.name, end=' ')
-        print()
-
-    if category_name in category_names:
-        category = Category.query.filter_by(name=category_name).first()
-        category.deals.append(deal1)
-    else:
-        category = Category(name=category_name, deals=[deal1])
-    db.session.add(category)
-
-    print('123456', category_names, file=sys.stdout)
-
-    db.session.add(deal1)
+    # db.session.add(category)
+    # db.session.add(deal)
     db.session.commit()
 
     return render_template('index.html')
@@ -88,17 +119,10 @@ def index():
 @app.route('/data', methods=['GET', 'POST'])
 def send_data():
     if request.method == 'POST':
-        id = request.form['category'] # получаю id категории
+        id = request.form['category']
 
-        '''
-        достаю категорию из БД и все относящиеся к ней дела,
-        смотрю статус каждого дела,
-        считаю прцоенты
-        '''
+        num1, num2 = [random.randint(1, 49) for _ in range(2)]
 
-        num1, num2 = [random.randint(1, 100) for _ in range(2)]
-
-        # возвращаю проценты клиенту
         return {'satisfied_percent': num1,
                 'partially_satisfied_percent': num2,
                 'denied_percent': 100 - (num1 + num2)}
