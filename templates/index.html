@@ -12,22 +12,46 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
-        <div id="select-block">
-            <select id="select-category" class="form-select" size="6" aria-label="size 3 select example">
-                <option value="1">Аренда транспортных средств (ТС)</option>
-                <option value="2">Поставка</option>
-                <option value="3">Теплоснабжение для государственных нужд</option>
-                <option value="4">Подряд</option>
-                <option value="5">Управление многоквартирным домом</option>
-                <option value="6">Водоотведение и прием сточных вод</option>
-                <option value="7">Банкротство организации</option>
-                <option value="8">Дела в связи с привлечением к административной ответственности</option>
-            </select><br>
+        <div id="container">
+            <div id="select-block">
+                <p><b>Решение</b></p>
+                <select id="select-solution" class="form-select" size="3" aria-label="size 3 select example">
+                    {% for solution in solutions %}
+                        <option value="{{ solution.id }}">{{ solution.name.capitalize() }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
 
-            <button id="my_button" class="btn btn-secondary">Посмотреть статистику</button><br>
+            <div id="select-block">
+                <p><b>Категория</b></p>
+                <select id="select-category" class="form-select" size="15" aria-label="size 15 select example">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+
+            <div id="select-block">
+                <p><b>Требование</b></p>
+                <select id="select-req" class="form-select" size="15" aria-label="size 15 select example">
+                    {% for req in requirements %}
+                        <option value="{{ req.id }}">{{ req.name }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+
+            <div id="select-block">
+                <p><b>Обстоятельства</b></p>
+                <select id="select-cond" class="form-select" size="15" aria-label="size 15 select example">
+                    {% for cond in conditions %}
+                        <option value="{{ cond.id }}">{{ cond.name }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
         </div>
+        <button id="my_button" class="btn btn-secondary">Посмотреть статистику</button><br>
 
         <canvas id="statusChart"></canvas>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/statistics_script.js') }}"></script>
     </body>
 </html>
