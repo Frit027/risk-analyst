@@ -1,12 +1,13 @@
-#select-block {
-    width: 400px;
-    margin: 30px 0 0 30px;
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
-
-#select-category {
-    width: 400px;
+#select-block {
+    width: 350px;
+}
+select {
     overflow-x:auto;
-    overflow-y:auto;
 }
 
 #my_button {
