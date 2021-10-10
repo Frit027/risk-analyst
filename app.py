@@ -30,7 +30,7 @@ class Category(db.Model):
 
 class Deal(db.Model):
     id = db.Column(db.String(255), primary_key=True)
-    status_id = db.Column(db.Integer, db.ForeignKey('status.id'))
+    solution_id = db.Column(db.Integer, db.ForeignKey('solution.id'))
 
     categories = db.relationship(Category,
                                  secondary=category_deal,
@@ -38,12 +38,12 @@ class Deal(db.Model):
     documents = db.relationship('Document', backref='deal_documents', lazy='dynamic')
 
 
-class Status(db.Model):
+class Solution(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
 
-    deals = db.relationship(Deal, backref='status_deals', lazy='dynamic')
-    documents = db.relationship('Document', backref='status_documents', lazy='dynamic')
+    deals = db.relationship(Deal, backref='solutions_deals', lazy='dynamic')
+    documents = db.relationship('Document', backref='solution_documents', lazy='dynamic')
 
 
 document_requirement = db.Table(
@@ -66,7 +66,7 @@ class Document(db.Model):
     con_detail = db.Column(db.Text, nullable=False)
     instance = db.Column(db.Integer, nullable=False)
     deal_id = db.Column(db.String(255), db.ForeignKey('deal.id'))
-    status_id = db.Column(db.Integer, db.ForeignKey('status.id'))
+    solution_id = db.Column(db.Integer, db.ForeignKey('solution.id'))
 
     requirements = db.relationship('Requirement',
                                    secondary=document_requirement,
@@ -103,14 +103,13 @@ db.create_all()
 
 @app.route('/')
 def index():
-    # from database_filler import DatabaseFiller
-    # DatabaseFiller.fill_status(db)
+    from database_filler import DatabaseFiller
+    # DatabaseFiller.fill_solution(db)
     # DatabaseFiller.fill_category(db)
     # DatabaseFiller.fill_requirements(db)
     # DatabaseFiller.fill_conditions(db)
 
-    # db.session.add(category)
-    # db.session.add(deal)
+
     db.session.commit()
 
     return render_template('index.html')

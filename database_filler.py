@@ -1,15 +1,15 @@
-from app import Status, Category, Condition, Requirement
-from constants import StatusType
+from app import Solution, Category, Condition, Requirement
+from constants import SolutionType
 import csv
 
 
 class DatabaseFiller:
 
     @staticmethod
-    def fill_status(db):
-        st1 = Status(name=StatusType.SATISFIED.value)
-        st2 = Status(name=StatusType.PARTIALLY_SATISFIED.value)
-        st3 = Status(name=StatusType.DENIED.value)
+    def fill_solution(db):
+        st1 = Solution(name=SolutionType.SATISFIED.value)
+        st2 = Solution(name=SolutionType.PARTIALLY_SATISFIED.value)
+        st3 = Solution(name=SolutionType.DENIED.value)
         for st in [st1, st2, st3]:
             db.session.add(st)
 
