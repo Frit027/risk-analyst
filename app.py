@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from constants import SolutionType
+import json
 import sys
+import csv
 
 
 app = Flask(__name__)
@@ -105,14 +107,24 @@ def index():
     # DatabaseFiller.fill_requirements(db)
     # DatabaseFiller.fill_conditions(db)
     # DatabaseFiller.fill(db)
+    # DatabaseFiller.add_some_req_cond(db)
+    # DatabaseFiller.update_documents(db)
 
-    db.session.commit()
+    # db.session.commit()
+    req_lst = [Requirement.query.filter_by(name='О включении в реестр требований кредиторов требования').first(),
+               Requirement.query.filter_by(name='О признании гражданина несостоятельным (банкротом)').first()]
 
     return render_template('index.html',
                            solutions=Solution.query.order_by(Solution.name).all(),
                            categories=Category.query.order_by(Category.name).all(),
-                           requirements=Requirement.query.order_by(Requirement.name).all(),
-                           conditions=Condition.query.order_by(Condition.name).all())
+                           requirements=req_lst + Requirement.query.order_by(Requirement.name).all(),
+                           conditions=get_new_conds() + Condition.query.order_by(Condition.name).all()
+                           )
+
+
+def get_new_conds():
+    with open('static/csv/bankruptcyCondListItog.csv', encoding='utf-8') as f:
+        return [Condition.query.filter_by(name=row[0]).first() for row in csv.reader(f)]
 
 
 @app.route('/data', methods=['GET', 'POST'])
@@ -131,7 +143,44 @@ def send_statistics():
 
         return {'satisfied_percent': get_percent(deals, SolutionType.SATISFIED.value),
                 'partially_satisfied_percent': get_percent(deals, SolutionType.PARTIALLY_SATISFIED.value),
-                'denied_percent': get_percent(deals, SolutionType.DENIED.value)}
+                'denied_percent': get_percent(deals, SolutionType.DENIED.value)
+                }
+
+
+@app.route('/documents', methods=['GET', 'POST'])
+def documents_page():
+    req_lst = [Requirement.query.filter_by(name='О включении в реестр требований кредиторов требования').first(),
+               Requirement.query.filter_by(name='О признании гражданина несостоятельным (банкротом)').first()]
+    conds = get_new_conds()
+
+    if request.method == 'POST':
+        print('here', file=sys.stdout)
+        solution_id = request.form.get('sol_id')
+        category_id = request.form.get('cat_id')
+        requirement_id = request.form.get('req_id')
+        condition_id = request.form.get('cond_id')
+        print(category_id, requirement_id, condition_id, file=sys.stdout)
+
+        ids1 = set(doc for deal in Category.query.get(category_id).deals for doc in deal.documents)
+        ids2 = set(doc for doc in Requirement.query.get(requirement_id).documents)
+        ids3 = set(doc for doc in Condition.query.get(condition_id).documents)
+        res = list(ids1 & ids2 & ids3)
+        print(res, file=sys.stdout)
+
+        return render_template('documents_list.html',
+                               solutions=Solution.query.order_by(Solution.name).all(),
+                               categories=Category.query.order_by(Category.name).all(),
+                               requirements=req_lst + Requirement.query.order_by(Requirement.name).all(),
+                               conditions=conds + Condition.query.order_by(Condition.name).all(),
+                               docs=res
+                               )
+    else:
+        return render_template('documents_list.html',
+                               solutions=Solution.query.order_by(Solution.name).all(),
+                               categories=Category.query.order_by(Category.name).all(),
+                               requirements=req_lst + Requirement.query.order_by(Requirement.name).all(),
+                               conditions=conds + Condition.query.order_by(Condition.name).all()
+                               )
 
 
 def get_deals(solution_id, category_id, requirement_id, condition_id):
