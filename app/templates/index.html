@@ -14,15 +14,6 @@
     <body>
         <div id="container">
             <div id="select-block">
-                <p><b>Решение</b></p>
-                <select id="select-solution" class="form-select" size="3" aria-label="size 3 select example">
-                    {% for solution in solutions %}
-                        <option value="{{ solution.id }}">{{ solution.name.capitalize() }}</option>
-                    {% endfor %}
-                </select><br>
-            </div>
-
-            <div id="select-block">
                 <p><b>Категория</b></p>
                 <select id="select-category" class="form-select" size="15" aria-label="size 15 select example">
                     {% for category in categories %}

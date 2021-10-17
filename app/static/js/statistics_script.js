@@ -6,12 +6,11 @@ let pieChart = new Chart(statusCanvas, {
 });
 
 $( "#my_button" ).click(function() {
-    let sol_id = parseInt($('#select-solution').val())
     let cat_id = parseInt($('#select-category').val())
     let req_id = parseInt($('#select-req').val())
     let cond_id = parseInt($('#select-cond').val())
 
-    $.post( "/data", { sol_id: sol_id, cat_id: cat_id, req_id: req_id, cond_id:cond_id }, function(data) {
+    $.post( "/data", { cat_id: cat_id, req_id: req_id, cond_id:cond_id }, function(data) {
         pieChart.data = {
             labels: [
                 "Удовлетворено",
