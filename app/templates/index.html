@@ -15,11 +15,14 @@
         <div id="container">
             <div id="select-block">
                 <p><b>Категория</b></p>
-                <select id="select-category" class="form-select" size="15" aria-label="size 15 select example">
+                <select id="select-category" class="form-select" size="15" aria-label="size 15 select example" multiple>
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
                 </select><br>
+                <button id="clear_selected_category" class="btn btn-info index">
+                    Очистить выбор
+                </button>
             </div>
 
             <div id="select-block">
@@ -29,6 +32,9 @@
                         <option value="{{ req.id }}">{{ req.name }}</option>
                     {% endfor %}
                 </select><br>
+                <button class="btn btn-info index" onclick="$('#select-req').prop('selectedIndex', -1);">
+                    Очистить выбор
+                </button>
             </div>
 
             <div id="select-block">
@@ -38,11 +44,16 @@
                         <option value="{{ cond.id }}">{{ cond.name }}</option>
                     {% endfor %}
                 </select><br>
+                <button class="btn btn-info index" onclick="$('#select-cond').prop('selectedIndex', -1);">
+                    Очистить выбор
+                </button>
             </div>
         </div>
-        <button id="my_button" class="btn btn-secondary">Посмотреть статистику</button><br>
+        <br>
+        <button id="show_statistics_button" class="btn btn-secondary index">Посмотреть статистику</button><br>
 
         <canvas id="statusChart"></canvas>
         <script type="text/javascript" src="{{ url_for('static', filename='js/statistics_script.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/fill_selects.js') }}"></script>
     </body>
 </html>

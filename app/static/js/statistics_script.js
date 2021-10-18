@@ -1,16 +1,14 @@
-let statusCanvas = document.getElementById("statusChart");
-let pieChart = new Chart(statusCanvas, {
+let pieChart = new Chart($("#statusChart"), {
     type: 'pie',
-    data: {},
     options: { responsive: false }
 });
 
-$( "#my_button" ).click(function() {
-    let cat_id = parseInt($('#select-category').val())
+$( "#show_statistics_button" ).click(function() {
+    let cat_id = $('#select-category').val().map(Number)
     let req_id = parseInt($('#select-req').val())
     let cond_id = parseInt($('#select-cond').val())
 
-    $.post( "/data", { cat_id: cat_id, req_id: req_id, cond_id:cond_id }, function(data) {
+    $.post( "/data", { cat_ids: cat_id, req_id: req_id, cond_id:cond_id }, function(data) {
         pieChart.data = {
             labels: [
                 "Удовлетворено",
