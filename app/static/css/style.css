@@ -10,10 +10,9 @@ select {
     overflow-x:auto;
 }
 
-#my_button {
+.index {
     margin: 0 auto;
     display: block;
-    width: 200px;
 }
 
 canvas {
@@ -42,8 +41,7 @@ body {
     border-bottom: 2px solid #7B5427;
 }
 
-#header h1
-{
+#header h1 {
     padding: 20px;
     margin: 0;
 }
