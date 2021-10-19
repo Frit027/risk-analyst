@@ -2,9 +2,8 @@ from app.models import Solution, Category, Condition, Requirement, Document, Dea
 from app.utils.entities_intersection import EntitiesIntersection
 from app.utils.statistics_calculator import StatisticsCalculator
 from app.utils.txt_parser import TxtParser
-from app.constants import SolutionType
 from app import app, db
-from flask import render_template, request
+from flask import render_template, request, session
 import jsonpickle
 import sys
 
@@ -22,7 +21,22 @@ def index():
 
     # db.session.commit()
 
-    return render_template('index.html',
+    if 'cat_ids' in session or 'req_ids' in session or 'cond_ids' in session:
+        cat_ids = session.get('cat_ids', [])
+        req_ids = session.get('req_ids', [])
+        cond_ids = session.get('cond_ids', [])
+
+        session.pop('cat_ids', None)
+        session.pop('req_ids', None)
+        session.pop('cond_ids', None)
+        return render_template('main.html',
+                               solutions=Solution.query.order_by(Solution.name).all(),
+                               categories=get_categories(),  # Category.query.order_by(Category.name).all(),
+                               requirements=Requirement.query.order_by(Requirement.name).all(),
+                               conditions=Condition.query.order_by(Condition.name).all(),
+                               data=StatisticsCalculator.get_percents(cat_ids, req_ids, cond_ids))
+
+    return render_template('main.html',
                            solutions=Solution.query.order_by(Solution.name).all(),
                            categories=get_categories(), # Category.query.order_by(Category.name).all(),
                            requirements=Requirement.query.order_by(Requirement.name).all(),
@@ -33,23 +47,23 @@ def index():
 @app.route('/documents', methods=['GET', 'POST'])
 def documents_page():
     if request.method == 'POST':
-        solution_id = request.form.get('sol_id')
-        category_ids = tuple(map(int, request.form.getlist('cat_ids')))
-        requirement_id = request.form.get('req_id')
-        condition_id = request.form.get('cond_id')
+        def to_int(ids): return tuple(map(int, ids))
 
-        print(f'solution_id = {solution_id}', file=sys.stdout)
-        print(f'category_ids = {category_ids}', file=sys.stdout)
-        print(f'requirement_id = {requirement_id}', file=sys.stdout)
-        print(f'condition_id = {condition_id}', file=sys.stdout)
-        res = EntitiesIntersection.get_docs(solution_id, category_ids, requirement_id, condition_id)
+        category_ids = to_int(request.form.getlist('cat_ids'))
+        requirement_ids = to_int(request.form.getlist('req_ids'))
+        condition_ids = to_int(request.form.getlist('cond_ids'))
+        solution_ids = to_int(request.form.getlist('sol_ids'))
+
+        session['cat_ids'] = category_ids
+        session['req_ids'] = requirement_ids
+        session['cond_ids'] = condition_ids
 
         return render_template('documents_list.html',
                                solutions=Solution.query.order_by(Solution.name).all(),
                                categories=get_categories(), # Category.query.order_by(Category.name).all(),
                                requirements=Requirement.query.order_by(Requirement.name).all(),
                                conditions=Condition.query.order_by(Condition.name).all(),
-                               docs=res
+                               docs=EntitiesIntersection.get_docs(category_ids, requirement_ids, condition_ids, solution_ids)
                                )
     return render_template('documents_list.html',
                            solutions=Solution.query.order_by(Solution.name).all(),
@@ -82,21 +96,13 @@ def document_page(doc_id):
                            )
 
 
-@app.route('/data', methods=['POST'])
+@app.route('/data', methods=['GET', 'POST'])
 def send_statistics():
     if request.method == 'POST':
-        deals = EntitiesIntersection.get_deals(request.form.getlist('cat_ids[]'),
-                                               request.form['req_id'],
-                                               request.form['cond_id']
-                                               )
-
-        if not deals:
-            return {'response': None}
-
-        return {'satisfied_percent': StatisticsCalculator.get_percent(deals, SolutionType.SATISFIED.value),
-                'partially_satisfied_percent': StatisticsCalculator.get_percent(deals, SolutionType.PARTIALLY_SATISFIED.value),
-                'denied_percent': StatisticsCalculator.get_percent(deals, SolutionType.DENIED.value)
-                }
+        return StatisticsCalculator.get_percents(request.form.getlist('cat_ids[]'),
+                                                 request.form.getlist('req_ids[]'),
+                                                 request.form.getlist('cond_ids[]')
+                                                 )
 
 
 @app.route('/req_cond', methods=['POST'])
