@@ -11,9 +11,24 @@ $( "#clear_selected_category" ).click(function() {
     }, "json");
 });
 
+$( "#clear_selected_req" ).click(function() {
+    $('#select-req').prop('selectedIndex', -1);
+    $.post( "/clear_req", function() {});
+});
+
+$( "#clear_selected_cond" ).click(function() {
+    $('#select-cond').prop('selectedIndex', -1);
+    $.post( "/clear_cond", function() {});
+});
+
+$( "#clear_selected_sol" ).click(function() {
+    $('#select-solution').prop('selectedIndex', -1);
+    $.post( "/clear_sol", function() {});
+});
+
 function fill_selects_req_cond(requirements, conditions) {
-    var select_req = $("#select-req");
-    var select_cond = $("#select-cond");
+    let select_req = $("#select-req");
+    let select_cond = $("#select-cond");
 
     select_req.empty()
     $.each(requirements, function() {
