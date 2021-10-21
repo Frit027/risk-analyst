@@ -11,6 +11,15 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
+        <div id="headerName">
+            <h1><a href="{{ url_for('index') }}">РискАналитик</a></h1>
+        </div>
+        <div id="topsidebar"></div>
+        <div id="topFindSidebar">
+            <h2><a href="{{ url_for('index') }}">Поиск Дела</a></h2>
+        </div>
+        <div id="topHomeSidebar"><h2>Помощь</h2></div>
+
         {% block body %}{% endblock %}
     </body>
 </html>
