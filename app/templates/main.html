@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Документы{% endblock %}
+{% block javascript %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script type="text/javascript">
+        let docs = {{ docs|tojson }};
+        let statistics = {{ statistics|tojson }};
+        let ids = {{ ids|tojson }};
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div id="topStatSidebar">
+        <canvas id="statusChart"></canvas>
+    </div>
+
+    <div id="topUnderStatSidebar">
+        <button class="button-75details" type="button">
+            <span><a href="{{ url_for('statistics_page') }}">Подробнее</a></span>
+        </button>
+    </div>
+
+    <div class="menu-docs-diagram">
+        <div id="sidebar" class="withoutScroll">
+            <form>
+                <div id="select-block" >
+                    <h3>Категория</h3>
+                    <select id="select-category" name="cat_ids" class="form-select" size="3" aria-label="size 3 select example" multiple>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="clear_selected_category" class="button-75Cancel" type="button">
+                        <span class="text">Очистить выбор</span>
+                    </button>
+                </div>
+
+                <div id="select-block">
+                    <h3>Требование</h3>
+                    <select id="select-req" name="req_ids" class="form-select" size="7" aria-label="size 7 select example" multiple>
+                        {% for req in requirements %}
+                            <option value="{{ req.id }}">{{ req.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="clear_selected_req" class="button-75Cancel" type="button">
+                        <span class="text">Очистить выбор</span>
+                    </button>
+                </div>
+
+                <div id="select-block">
+                    <h3>Обстоятельства</h3>
+                    <select id="select-cond" name="cond_ids" class="form-select" size="7" aria-label="size 7 select example" multiple>
+                        {% for cond in conditions %}
+                            <option value="{{ cond.id }}">{{ cond.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="clear_selected_cond" class="button-75Cancel" type="button">
+                        <span class="text">Очистить выбор</span>
+                    </button>
+                </div>
+
+                <div id="select-block">
+                    <h3>Решение</h3>
+                    <select id="select-solution" name="sol_ids" class="form-select" size="3" aria-label="size 3 select example" multiple>
+                        {% for solution in solutions %}
+                            <option value="{{ solution.id }}">{{ solution.name.capitalize() }}</option>
+                        {% endfor %}
+                    </select>
+                    <button id="clear_selected_sol" class="button-75Cancel" type="button">
+                        <span class="text">Очистить выбор</span>
+                    </button>
+                </div>
+                <button id="searchButton" class="button-75Spec" type="button">
+                    <span class="text">Найти</span>
+                </button>
+            </form>
+        </div>
+    </div>
+        
+    <div id="docContent" class="withoutScroll">
+        <div id = "docElement">
+            <ul id="list_docs" class="list-group">
+            </ul>
+        </div>
+    </div> 
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/set_selected.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fill_selects.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/fill_docs_diagram.js') }}"></script>
+{% endblock %}

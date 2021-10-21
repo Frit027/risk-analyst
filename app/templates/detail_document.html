@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Документ{% endblock %}
+
+{% block body %}
+    <div id="rightsidebar" class="withoutScroll">
+        <ul class="nav nav-pills nav-fill flex-column">
+            <br>
+            {% for doc in documents %}
+                <li class="nav-item">
+                    {% if doc.id == cur_doc.id and doc.instance == 1 %}
+                        <button class="button-75Active">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Первая инстанция</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id == cur_doc.id and doc.instance == 2 %}
+                        <button class="button-75Active">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Апелляция</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id == cur_doc.id and doc.instance == 3 %}
+                        <button class="button-75Active">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Кассация</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id == cur_doc.id and doc.instance == 4 %}
+                        <button class="button-75Active">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Вторая кассация/Надзор</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id != cur_doc.id and doc.instance == 1 %}
+                        <button class="button-75NonActive">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Первая инстанция</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id != cur_doc.id and doc.instance == 2 %}
+                        <button class="button-75NonActive">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Апелляция</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id != cur_doc.id and doc.instance == 3 %}
+                        <button class="button-75NonActive">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Кассация</a>
+                        </button>
+                    {% endif %}
+
+                    {% if doc.id != cur_doc.id and doc.instance == 4 %}
+                        <button class="button-75NonActive">
+                            <a href="{{ url_for('document_page', doc_id=doc.id.replace('/', '_')) }}">Вторая кассация/Надзор</a>
+                        </button>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3><b><u>Категория дела:</u></b> {{ category.name }}</h3>
+        <h3><b><u>Требования по делу:</u></b> {{ cur_doc.req_detail }}</h3><br>
+        <h3><b><u>Обстоятельства по делу:</u></b> {{ cur_doc.cond_detail }}</h3><br>
+        <h3><b><u>Решение по делу:</u></b> {{ deal_solution }}</h3><br>
+        <h3><b><u>Решение по данной инстанции:</u></b> {{ doc_solution }}</h3>
+    </div>
+
+    <div id="leftcontent" class="withoutScroll" >
+        <textarea disabled>
+            {{ text }}
+        </textarea>
+    </div>
+
+{% endblock %}
