@@ -33,21 +33,21 @@ class EntitiesIntersection:
         if len(category_ids):
             s = set(doc for id in category_ids for deal in Category.query.get(id).deals for doc in deal.documents)
             # print(f'category_ids = {category_ids}', file=sys.stdout)
-            # print('Доки данной категории:', s, file=sys.stdout)
+            print('Доки данной категории:', s, file=sys.stdout)
             lst.append(s)
         if len(requirement_ids):
             s = set(doc for id in requirement_ids for doc in Requirement.query.get(id).documents)
             # print(f'requirement_ids = {requirement_ids}', file=sys.stdout)
-            # print('Доки данного требования:', s, file=sys.stdout)
+            print('Доки данного требования:', s, file=sys.stdout)
             lst.append(s)
         if len(condition_ids):
             s = set(doc for id in condition_ids for doc in Condition.query.get(id).documents)
             # print(f'condition_ids = {condition_ids}', file=sys.stdout)
-            # print('Доки данного обстоятельства:', s, file=sys.stdout)
+            print('Доки данного обстоятельства:', s, file=sys.stdout)
             lst.append(s)
         if len(solution_ids):
             docs = set(doc for id in solution_ids for doc in Solution.query.get(id).documents)
-            # print('Доки данного решения:', docs, file=sys.stdout)
+            print('Доки данного решения:', docs, file=sys.stdout)
             # print(f'solution_ids = {solution_ids}', file=sys.stdout)
             lst.append(docs)
 
@@ -55,7 +55,7 @@ class EntitiesIntersection:
             res = lst[0]
             for docs in lst:
                 res.intersection_update(docs)
-            # print('Пересечение доков:', res, file=sys.stdout)
+            print('Пересечение доков:', res, file=sys.stdout)
             return res
         return []
 
