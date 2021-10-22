@@ -63,7 +63,15 @@
         <h3><b><u>Требования по делу:</u></b> {{ cur_doc.req_detail }}</h3><br>
         <h3><b><u>Обстоятельства по делу:</u></b> {{ cur_doc.cond_detail }}</h3><br>
         <h3><b><u>Решение по делу:</u></b> {{ deal_solution }}</h3><br>
-        <h3><b><u>Решение по данной инстанции:</u></b> {{ doc_solution }}</h3>
+        <h3><b><u>Решение по данной инстанции:</u></b> {{ doc_solution }}</h3><br>
+
+        <button class="button-75Stat">
+            <a href="{{ url_for('statistics_page', cur_cat=category.id,
+                                                   cur_req=cur_doc.requirements[0].id,
+                                                   cur_cond=cur_doc.conditions[0].id) }}">
+                Статистика по похожим делам
+            </a>
+        </button>
     </div>
 
     <div id="leftcontent" class="withoutScroll" >
@@ -71,5 +79,4 @@
             {{ text }}
         </textarea>
     </div>
-
 {% endblock %}

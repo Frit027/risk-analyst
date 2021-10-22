@@ -21,13 +21,13 @@ class DatabaseFiller:
 
     @staticmethod
     def fill_requirements(db):
-        with open('app/static/csv/TotalReq_Банкротство_Аренда_Электроэнергия_2.csv', encoding='utf-8') as f:
+        with open('app/static/csv/requirements.csv', encoding='utf-8') as f:
             for data in csv.reader(f):
                 db.session.add(Requirement(name=data[0]))
 
     @staticmethod
     def fill_conditions(db):
-        with open('app/static/csv/TotalCond_Банкротство_Аренда_Электроэнергия_1.csv', encoding='utf-8') as f:
+        with open('app/static/csv/conditions.csv', encoding='utf-8') as f:
             for data in csv.reader(f):
                 db.session.add(Condition(name=data[0]))
 
@@ -35,7 +35,7 @@ class DatabaseFiller:
     def fill(db):
         pattern = re.compile(r'.[\d-]+/')
 
-        with open('app/static/csv/TotalTable_Банкротство_Аренда_Электроэнергия_2.csv', encoding='utf-8') as f:
+        with open('app/static/csv/data.csv', encoding='utf-8') as f:
             reader = csv.DictReader(f)
             previous_deal_id = ''
 
@@ -49,14 +49,6 @@ class DatabaseFiller:
                 req_str = row['REQ_1']
                 cat_str = row['CAT_1']
 
-                # cat_lst = []
-                # if row['CAT_1']:
-                #     cat_lst.append(row['CAT_1'])
-                # if row['CAT_2']:
-                #     cat_lst.append(row['CAT_2'])
-                # if row['CAT_3']:
-                #     cat_lst.append(row['CAT_3'])
-
                 req = Requirement.query.filter_by(name=req_str).first()
                 cond = Condition.query.filter_by(name=cond_str).first()
 
@@ -69,14 +61,11 @@ class DatabaseFiller:
                 req.documents.append(doc)
                 cond.documents.append(doc)
 
-                # categories = [Category.query.filter_by(name=name).first() for name in cat_lst]
                 category = Category.query.filter_by(name=cat_str).first()
 
                 if deal_id != previous_deal_id:
-                    # deal = Deal(id=deal_id, categories=categories, documents=[doc])
                     deal = Deal(id=deal_id, categories=[category], documents=[doc])
                     deal_solution.deals.append(deal)
-                    # [category.deals.append(deal) for category in categories]
                     category.deals.append(deal)
 
                     db.session.add(deal)
@@ -86,5 +75,4 @@ class DatabaseFiller:
                     db.session.add(deal)
 
                 previous_deal_id = deal_id
-
                 db.session.add(doc)

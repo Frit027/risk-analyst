@@ -8,22 +8,22 @@ class EntitiesIntersection:
         lst = []
         if len(category_ids):
             s = set(deal.id for id in category_ids for deal in Category.query.get(id).deals)
-            print('IDs дел данных категорий:', s, file=sys.stdout)
+            # print('IDs дел данных категорий:', s, file=sys.stdout)
             lst.append(s)
         if len(requirement_ids):
             s = set(doc.deal_id for id in requirement_ids for doc in Requirement.query.get(id).documents)
-            print('IDs дел данных требований:', s, file=sys.stdout)
+            # print('IDs дел данных требований:', s, file=sys.stdout)
             lst.append(s)
         if len(condition_ids):
             s = set(doc.deal_id for id in condition_ids for doc in Condition.query.get(id).documents)
-            print('IDs дел данных обстоятельств:', s, file=sys.stdout)
+            # print('IDs дел данных обстоятельств:', s, file=sys.stdout)
             lst.append(s)
 
         if lst:
             res = lst[0]
             for ids in lst:
                 res.intersection_update(ids)
-            print('Пересечение дел:', res, file=sys.stdout)
+            # print('Пересечение дел:', res, file=sys.stdout)
             return [Deal.query.get(id) for id in res]
         return []
 

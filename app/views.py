@@ -7,18 +7,18 @@ from flask import render_template, request, session
 import jsonpickle
 import sys
 
-# from app.utils.database_filler import DatabaseFiller
-# DatabaseFiller.fill_solution(db)
-# DatabaseFiller.fill_category(db)
-# DatabaseFiller.fill_requirements(db)
-# DatabaseFiller.fill_conditions(db)
-# DatabaseFiller.fill(db)
-
-# db.session.commit()
-
 
 @app.route('/')
 def index():
+    # from app.utils.database_filler import DatabaseFiller
+    # DatabaseFiller.fill_solution(db)
+    # DatabaseFiller.fill_category(db)
+    # DatabaseFiller.fill_requirements(db)
+    # DatabaseFiller.fill_conditions(db)
+    # DatabaseFiller.fill(db)
+    #
+    # db.session.commit()
+
     cat_ids = session.get('cat_ids', [])
     req_ids = session.get('req_ids', [])
     cond_ids = session.get('cond_ids', [])
@@ -61,13 +61,6 @@ def document_page(doc_id):
     deal = Deal.query.get(deal_id)
     doc = Document.query.get(doc_id)
 
-    session['cur_req'] = doc.requirements[0].id
-    session['cur_cond'] = doc.conditions[0].id
-    session['cur_cat'] = deal.categories[0].id
-    # print(f'requirements = {cur_req}', file=sys.stdout)
-    # print(f'conditions = {cur_cond}', file=sys.stdout)
-    # print(f'categories = {cur_cat}', file=sys.stdout)
-
     return render_template('detail_document.html',
                            documents=deal.documents,
                            cur_doc=doc,
@@ -84,6 +77,15 @@ def statistics_page():
     req_ids = session.get('req_ids', [])
     cond_ids = session.get('cond_ids', [])
     sol_ids = session.get('sol_ids', [])
+
+    cur_cat = request.args.get('cur_cat', [])
+    cur_req = request.args.get('cur_req', [])
+    cur_cond = request.args.get('cur_cond', [])
+    if cur_cat and cur_req and cur_cond:
+        cat_ids = [cur_cat]
+        req_ids = [cur_req]
+        cond_ids = [cur_cond]
+        sol_ids = []
 
     return render_template('diagrams.html',
                            categories=get_categories(),

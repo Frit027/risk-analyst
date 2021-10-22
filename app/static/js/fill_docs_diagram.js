@@ -37,9 +37,9 @@ function show_diagram(data) {
                     data.denied_percent
                 ],
                 backgroundColor: [
-                    "#32CD32",
-                    "#FFA420",
-                    "#F80000"
+                    "#4ad66d",
+                    "#F39B53",
+                    "#F0736A"
                 ]
             }]
     };

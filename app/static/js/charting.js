@@ -32,7 +32,6 @@ $( "#show_statistics_button" ).click(function() {
     let cond_ids = $('#select-cond').val();
 
     $.post( "/data", { cat_ids: cat_ids, req_ids: req_ids, cond_ids: cond_ids }, function(data) {
-        console.log(data);
         show_pie_diagram(data.percents_by_sol);
         show_bar_diagram(data.count_by_inst);
     }, "json");
@@ -53,9 +52,9 @@ function show_pie_diagram(data) {
                     data.denied_percent
                 ],
                 backgroundColor: [
-                    "#32CD32",
-                    "#FFA420",
-                    "#F80000"
+                    "#4ad66d",
+                    "#F39B53",
+                    "#F0736A"
                 ]
             }]
     };
@@ -79,10 +78,10 @@ function show_bar_diagram(data) {
                     data.count_4
                 ],
                 backgroundColor: [
-                    "#78DBE2",
-                    "#9966CC",
-                    "#4E5754",
-                    "#A8E4A0"
+                    "#bde0fe",
+                    "#ccd5ae",
+                    "#fae588",
+                    "#ffafcc"
                 ]
             }]
     };
