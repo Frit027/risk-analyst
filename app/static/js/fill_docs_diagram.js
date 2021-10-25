@@ -49,22 +49,19 @@ function show_diagram(data) {
 function fill_docs(docs) {
     let list_docs = $("#list_docs");
     list_docs.empty();
-
     $.each(docs, function() {
-        $.each(this, function() {
-            let li = $('<li/>');
-            li.append(`<li class='list-group-item'>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">
-                                    <a href="/document/${this.id.replace('/', '_')}">
-                                        ${ this.id.replace('.txt', '') }
-                                    </a>
-                                </h5>
-                            </div>
-                            <p class="mb-1">${ this.req_detail }</p>
-                            <p class="mb-1">${ this.cond_detail }</p>
-                        </li>`)
-            list_docs.append(li);
-        });
+        let li = $('<li/>');
+        li.append(`<li class='list-group-item'>
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">
+                                <a href="/document?doc_id=${this.id}">
+                                    ${ this.id.split('/')[0] }
+                                </a>
+                            </h5>
+                        </div>
+                        <p class="mb-1">${ this.req_detail }</p>
+                        <p class="mb-1">${ this.cond_detail }</p>
+                    </li>`)
+        list_docs.append(li);
     });
 }

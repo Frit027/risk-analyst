@@ -8,7 +8,7 @@ html {
     flex-direction: row;
     justify-content: space-around;
     background: #FFFFFF;
-    border:  1px;
+    border: 1px;
     left: 1.5rem;
     top: 3rem;
     width: 44%;
@@ -17,10 +17,7 @@ html {
 }
 
 #containerPie canvas {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem;
     border: 1px solid #E0DDDD;
 }
 
@@ -35,31 +32,22 @@ html {
     right: 1.5rem;
     width: 50%;
     height: 60%;
-
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 #containerBar canvas {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem;
     border: 1px solid #E0DDDD;
 }
 
 #select-block {
-
     width: 22rem;
-
 }
-
-
 
 .index {
     margin: 0 auto;
     display: block;
 }
-
 
 body {
     margin: 0;
@@ -69,23 +57,18 @@ body {
     position: absolute;
 }
 
-
-
-
 #headerName {
     width: 25rem;
-    height: 3.8rem; /* Высота слоя */
+    height: 3.8rem;
     background: #FFFFFF;
     border-right: 2px solid #E0DDDD;
     border-bottom: 2px solid #E0DDDD;
-
-
 }
 
 #headerName h1 {
     font-family: "Codec cold",sans-serif;
     font-weight: bold;
-    font-size: 2,5rem;
+    font-size: 2.5rem;
     text-align: center;
     background: linear-gradient(45deg, #1a7431 12%, #f5811f);
     -webkit-background-clip: text;
@@ -103,31 +86,21 @@ body {
     background: #FFFFFF;
     border-right: 1px solid #E0DDDD;
     border-bottom: 2px solid #E0DDDD;
-    top: 0; /* Расстояние от верхнего края */
+    top: 0;
     right: 30rem;
     left: 25rem;
-    height: 3.8rem; /* Высота слоя */
-
+    height: 3.8rem;
 }
-
-
-
 
 #topFindSidebar {
     background: #FFFFFF;
     border-right: 2px solid #E0DDDD;
     border-left: 1px solid #E0DDDD;
     border-bottom: 2px solid #E0DDDD;
-    top: 0px; /* Расстояние от верхнего края */
+    top: 0;
     right: 15rem;
-    height: 3.8rem; /* Высота слоя */
+    height: 3.8rem;
     width: 15rem;
-}
-
-
-
-img {
-    opacity: 0.5;
 }
 
 #topFindSidebar h2 {
@@ -142,7 +115,6 @@ img {
     letter-spacing: 0.0125px;
     line-height: 1;
     max-width: 100%;
-
 }
 
 #topHomeSidebar {
@@ -151,18 +123,16 @@ img {
     background: #FAFFFF;
     border-right: 2px solid #E0DDDD;
     border-bottom: 2px solid #E0DDDD;
-    top: 0; /* Расстояние от верхнего края */
+    top: 0;
     right: 0;
-    height: 3.8rem; /* Высота слоя */
+    height: 3.8rem;
     width: 15rem;
 }
 
 #topFindSidebar a {
-    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+    text-decoration: none;
     color: #495057 !important;
-
 }
-
 
 #topHomeSidebar h2 {
     font-weight: bold;
@@ -176,9 +146,7 @@ img {
     letter-spacing: 0.0125rem;
     line-height: 1;
     max-width: 100%;
-
 }
-
 
 #topStatSidebar {
     flex-direction: row;
@@ -187,13 +155,12 @@ img {
     background: #FFFFFF;
     border-right: 2px solid #E0DDDD;
     border-left: 2px solid #E0DDDD;
-    top: 3.8rem; /* Расстояние от верхнего края */
-    right: 0px;
-    height: 32rem; /* Высота слоя */
+    top: 3.8rem;
+    right: 0;
+    height: 32rem;
     width: 25rem;
-    box-shadow: -8px 0px 15px -9px rgba(0,0,0,0.5);
+    box-shadow: -8px 0 15px -9px rgba(0,0,0,0.5);
 }
-
 
 #topStatSidebar canvas {
     display: block;
@@ -209,17 +176,15 @@ img {
     display: flex;
     justify-content: center;
     background: #F2F3F3;
-    top: 35.8rem; /* Расстояние от верхнего края */
+    top: 35.8rem;
     right: 0;
     bottom: 0;
     width: 25.5rem;
 }
 
-
 #topUnderStatSidebar a {
-    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+    text-decoration: none;
     color: #FFFFFF !important;
-
 }
 
 #sidebar {
@@ -228,13 +193,10 @@ img {
     width: 25rem;
     background: linear-gradient(#FFEEE6, #fefae0);
     border-right: 2px solid #E0DDDD;
-    top: 3.8rem; /* Расстояние от верхнего края */
-    bottom: 0; /* Расстояние снизу  */
-    box-shadow: 8px 0px 15px -9px rgba(0,0,0,0.5);
+    top: 3.8rem;
+    bottom: 0;
+    box-shadow: 8px 0 15px -9px rgba(0,0,0,0.5);
 }
-
-
-
 
 #rightsidebar {
     vertical-align: middle;
@@ -244,12 +206,11 @@ img {
     top: 3.8rem; /* Расстояние от верхнего края */
     right: 0;
     bottom: 0;
-    box-shadow: -8px 0px 15px -9px rgba(0,0,0,0.5);
+    box-shadow: -8px 0 15px -9px rgba(0,0,0,0.5);
 }
 
 #rightsidebar h3{
     margin-top: 1rem;
-
     font-family: "Codec cold",sans-serif;
     font-size: 1.25rem;
     font-weight: bold;
@@ -259,24 +220,21 @@ img {
     line-height: 1;
     color: #4D4D4D;
     margin-left: 1.5rem;
-
 }
 
 #rightsidebar a {
-    text-decoration: none; /* Отменяем подчеркивание у ссылки */
+    text-decoration: none;
     color: #FFFFFF !important;
-
 }
 
 
 #leftcontent {
     background: #F2F3F3;
-    top: 3.8rem; /* Расстояние от верхнего края */
+    top: 3.8rem;
     bottom: 0;
     right: 30.5rem;
     left: 0;
 }
-
 
 #content {
     padding: 0.625rem;
@@ -284,27 +242,25 @@ img {
     border-right: 1px solid #E0DDDD;
     border-left: 1px solid #E0DDDD;
     border-top: 1px solid #E0DDDD;
-
-    top: 3.8rem; /* Расстояние от верхнего края */
-    left: 25.5rem; /* Расстояние от левого края */
+    top: 3.8rem;
+    left: 25.5rem;
     bottom: 0;
     right: 0;
 }
 
 #docContent {
     background: #F2F3F3;
-    top: 3.8rem; /* Расстояние от верхнего края */
-    left: 25.5rem; /* Расстояние от левого края */
+    top: 3.8rem;
+    left: 25.5rem;
     bottom: 0;
     right: 25.5rem;
-
 }
 
 #docElement {
     position: absolute;
     background: #F2F3F3;
-    top: 2rem; /* Расстояние от верхнего края */
-    left: 2rem; /* Расстояние от левого края */
+    top: 2rem;
+    left: 2rem;
     bottom: 0;
     right: 2rem;
 }
@@ -315,15 +271,13 @@ select, #sidebar, #rightsidebar, #leftcontent, #content, #docContent  {
 }
 
 .withoutScroll::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0;
+    background: transparent;
 }
-
 
 
 #select-block h3 {
     margin-top: 1rem;
-
     font-family: "Codec cold",sans-serif;
     font-size: 1.5625rem;
     font-weight: bold;
@@ -333,8 +287,6 @@ select, #sidebar, #rightsidebar, #leftcontent, #content, #docContent  {
     line-height: 1;
     color: #4D4D4D;
     text-align: center;
-
-
 }
 
 textarea {
@@ -347,12 +299,11 @@ textarea {
     top: 2.5rem;
     bottom: 2.5rem;
     padding-top: 1.5rem;
-    padding-left: 0rem;
+    padding-left: 0;
     padding-right: 1rem;
 }
 
 
-/* CSS */
 .button-75 {
     width: 350px;
     align-items: center;
@@ -441,7 +392,6 @@ textarea {
     -webkit-user-select: none;
     touch-action: manipulation;
     margin-bottom: 20px;
-
 }
 
 .button-75Cancel:active {
@@ -529,8 +479,6 @@ textarea {
     line-height: 50px;
   }
 }
-
-
 
 .button-75details {
     width: 400px;
@@ -620,7 +568,6 @@ textarea {
     touch-action: manipulation;
     margin-bottom: 10px;
     margin-left: 35px;
-
 }
 
 .button-75NonActive:active {
@@ -680,7 +627,6 @@ textarea {
     touch-action: manipulation;
     margin-bottom: 10px;
     margin-left: 35px;
-
 }
 
 .button-75Active:active {
@@ -740,7 +686,6 @@ textarea {
     touch-action: manipulation;
     margin-bottom: 10px;
     margin-left: 35px;
-
 }
 
 .button-75Active:active {
