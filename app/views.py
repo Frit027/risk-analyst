@@ -5,7 +5,6 @@ from app.utils.txt_parser import TxtParser
 from app import app, db
 from flask import render_template, request, session
 import jsonpickle
-import sys
 
 
 @app.route('/')
@@ -54,10 +53,11 @@ def send_docs():
                               })
 
 
-@app.route('/document/<string:doc_id>', methods=['GET'])
-def document_page(doc_id):
-    deal_id = doc_id.split('_')[0]
-    doc_id = doc_id.replace('_', '/')
+@app.route('/document', methods=['GET'])
+def document_page():
+    doc_id = request.args.get('doc_id', None)
+    deal_id = doc_id.split('/')[0]
+
     deal = Deal.query.get(deal_id)
     doc = Document.query.get(doc_id)
 
