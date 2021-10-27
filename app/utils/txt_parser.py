@@ -1,6 +1,5 @@
 import os
 import shutil
-import sys
 import zipfile
 
 
@@ -10,7 +9,6 @@ class TxtParser:
         with zipfile.ZipFile('app/static/dataset/dataset.zip') as archive:
             for entry in archive.infolist():
                 current_name = entry.filename.encode('cp437').decode('utf-8')
-
                 if current_name != name:
                     continue
 
@@ -23,6 +21,5 @@ class TxtParser:
     @staticmethod
     def get_text(doc_id):
         TxtParser.__unpack_zipfile(doc_id)
-        path = 'app/static/dataset/' + doc_id
-        with open(path, encoding='utf-8') as f:
+        with open('app/static/dataset/' + doc_id, encoding='utf-8') as f:
             return f.read()

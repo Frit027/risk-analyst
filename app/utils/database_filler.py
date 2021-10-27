@@ -56,7 +56,6 @@ class DatabaseFiller:
                     deal = Deal(id=deal_id, categories=[category], documents=[doc])
                     deal_solution.deals.append(deal)
                     category.deals.append(deal)
-
                     db.session.add(deal)
                 else:
                     deal = Deal.query.get(deal_id)
