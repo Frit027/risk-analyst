@@ -24,7 +24,7 @@ def index():
     sol_ids = session.get('sol_ids', [])
 
     return render_template('main.html',
-                           categories=get_categories(),
+                           categories=Category.query.order_by(Category.name).all(),
                            requirements=Requirement.query.order_by(Requirement.name).all(),
                            conditions=Condition.query.order_by(Condition.name).all(),
                            solutions=Solution.query.order_by(Solution.name).all(),
@@ -88,7 +88,7 @@ def statistics_page():
         sol_ids = []
 
     return render_template('diagrams.html',
-                           categories=get_categories(),
+                           categories=Category.query.order_by(Category.name).all(),
                            requirements=Requirement.query.order_by(Requirement.name).all(),
                            conditions=Condition.query.order_by(Condition.name).all(),
                            percents=StatisticsCalculator.get_percents_by_solution(cat_ids, req_ids, cond_ids),
@@ -142,9 +142,3 @@ def clear_session_for_cond():
 def clear_session_for_sol():
     session.pop('sol_ids', None)
     return ''
-
-
-def get_categories():
-    return [Category.query.filter_by(name='Банкротство гражданина').first(),
-            Category.query.filter_by(name='Аренда земли').first(),
-            Category.query.filter_by(name='Поставка электроэнергии').first()]
