@@ -1,4 +1,4 @@
-<h1><div style="text-align: center;">RiskAnalyst</div></h1>
+<h1><div align="center">RiskAnalyst</div></h1>
 
 # Description
 The website has the following features:
