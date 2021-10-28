@@ -9,6 +9,11 @@ import jsonpickle
 
 @app.route('/')
 def index():
+
+    """
+    Uncomment the lines below when you first start the project to fill the tables,
+    after that you can comment out or delete them.
+    """
     # from app.utils.database_filler import DatabaseFiller
     # DatabaseFiller.fill_solution(db)
     # DatabaseFiller.fill_category(db)
